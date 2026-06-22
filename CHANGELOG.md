@@ -1,25 +1,13 @@
-# Changelog
+# PitchSync Changelog
 
-## [Unreleased]
+## [Unreleased] -- 2026-06-22
+
 ### Added
-- Direct Google Slides API export
-- GitLab and Bitbucket support
-- Pitch deck scoring: investor-readiness rating
-- Competitor comparison slide auto-generation
-- Video walkthrough generation from deck
-- Custom slide templates marketplace
+- GitHub repo analyzer: stars, forks, contributors, topics, README extraction
+- Slide builder: generates 6 slides (cover, problem, solution, tech, traction, CTA)
+- Deck model with slides array and format (pptx/pdf/html) enum
+- Deck generation API: POST /decks/generate from owner/repo
+- SlidePreview React component with themed slides and keyboard navigation
 
-### Changed
-- Slide generation now runs in parallel for 5x speed improvement
-- Improved tech stack detection for monorepos
-
-### Fixed
-- Fixed OAuth token refresh on long sessions
-- Fixed PPTX export with special characters in project names
-
-## [0.1.0] - 2026-06-01
-### Added
-- GitHub OAuth integration
-- AI-powered 12-slide deck generation
-- PPTX and PDF export
-- Drag-and-drop slide editor
+## [v1.06221253] -- 2026-06-22
+- Run: 20260622125341
