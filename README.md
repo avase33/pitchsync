@@ -1,151 +1,204 @@
-# PitchSync
+<div align="center">
 
-**Turn any GitHub repo into a stunning investor pitch deck in seconds.**
+```
+ ___ _ _       _    ___
+| _ (_) |_ ___| |_ / __|_  _ _ _  __
+|  _/ |  _/ __| ' \\__ \ || | ' \/ _|
+|_| |_|\__\___|_||_|___/\_, |_||_\__|
+                         |__/
+```
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Node.js](https://img.shields.io/badge/Node.js-20+-green.svg)](https://nodejs.org)
+### **Repo to Pitch Deck Generator**
+
+*Point it at your GitHub repo. Get investor-ready slides in minutes.*
+
+<br/>
+
+[![CI](https://github.com/avase33/pitchsync/actions/workflows/ci.yml/badge.svg)](https://github.com/avase33/pitchsync/actions/workflows/ci.yml)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-20-339933?logo=node.js&logoColor=white)
+![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)
+![License](https://img.shields.io/badge/License-Proprietary-red)
+
+<br/>
+
+> **PitchSync** reads your GitHub repo -- architecture, README, tech stack, commit history, and structure -- and auto-generates a polished investor pitch deck that articulates the technical differentiation, business value, and team execution signal buried in your codebase.
+
+</div>
 
 ---
 
 ## The Problem
 
-Building a pitch deck from scratch takes days. Founders spend more time in PowerPoint than talking to customers. Investors miss great projects because the presentation looks amateur.
-
-## The Solution
-
-PitchSync analyzes your GitHub repository — README, code structure, language stats, topics, stars — and generates a professional 10-slide pitch deck automatically. No design skills required.
-
-```
-Paste a GitHub URL -> Get a pitch deck in seconds
-```
+Founders and engineers build impressive systems and then struggle to communicate their value in slides. Investors see hundreds of decks and miss the technical depth that actually matters. PitchSync bridges the gap: it reads your code the way a technical investor would, and turns it into slides that speak both languages.
 
 ---
 
-## Features
+## Feature Highlights
 
-- **Instant Generation** — Paste any public GitHub repo URL and get a complete pitch deck in under 10 seconds
-- **10 Smart Slides** — Title, Problem, Solution, How It Works, Tech Stack, Market, Traction, Roadmap, Team, Ask
-- **5 Themes** — Dark, Ocean, Forest, Sunset, Light
-- **Smart Analysis** — Extracts problem/solution from README, detects tech stack, pulls GitHub metrics (stars, forks, language)
-- **Live Polling** — Deck updates in real-time while generating (2s interval)
-- **Share Links** — Public decks get a shareable slug URL
-- **Explore Gallery** — Browse community pitch decks for inspiration
-- **Regenerate** — Re-analyze any time to refresh content
-- **JWT Auth** — Secure accounts with access + refresh token pair
+### Repo Analysis
+
+- Connect any public or private GitHub repo via OAuth
+- Parse README, package.json/requirements.txt, file structure, commit history
+- Detect tech stack, frameworks, architecture patterns
+- Extract key signals: test coverage, CI setup, contribution activity, code quality
+
+### AI-Powered Slide Generation
+
+- Generates a 10-12 slide deck in standard investor format
+- Slides auto-populated from repo analysis:
+  - **Problem** -- extracted from README problem statement
+  - **Solution** -- product description and key features
+  - **Tech Differentiation** -- what makes the architecture novel
+  - **Traction** -- commit velocity, contributors, activity graph
+  - **Team** -- inferred from contributor history
+  - **Roadmap** -- extracted from TODO comments and issue tracker
+- One-click regenerate individual slides
+
+### Export
+
+- Export as `.pptx` for PowerPoint editing
+- Export as PDF for immediate sharing
+- Shareable link with password protection
+
+### Editor
+
+- Drag-and-drop slide reorder
+- Inline text editing on any generated slide
+- Theme selection: dark, light, minimal, bold
+- Logo and brand color injection
 
 ---
 
 ## Architecture
 
 ```
-pitchsync/
-+-- backend/          # Node.js 20 + Express 4 API (port 5001)
-|   +-- src/
-|   |   +-- config/   # Environment config
-|   |   +-- models/   # Mongoose schemas (User, Pitch)
-|   |   +-- routes/   # REST endpoints (auth, pitches)
-|   |   +-- services/ # githubService, analyzerService, slideGenerator, tokenService
-|   |   +-- middleware/
-|   +-- Dockerfile
-+-- frontend/         # React 18 + TypeScript + Vite + Tailwind (port 5174)
-|   +-- src/
-|   |   +-- pages/    # Dashboard, Pitches, NewPitch, PitchDetail, Explore
-|   |   +-- components/ # Layout, SlideViewer
-|   |   +-- lib/api.ts
-|   |   +-- store/auth.ts
-|   +-- Dockerfile
-+-- docker-compose.yml
-+-- .github/workflows/ci.yml
++--------------------------------------------------------------+
+|                      CLIENT (Browser)                        |
+|  React 18 - TypeScript - Slide Editor - Export Controls     |
++------------------------+-------------------------------------+
+                         |
+                         |  REST API
+                         |
++------------------------v-------------------------------------+
+|                    BACKEND (Node.js 20)                      |
+|  Express 4 - ES Modules                                      |
+|                                                              |
+|  +-----------+  +----------+  +----------+  +----------+   |
+|  |   GitHub  |  |   Repo   |  |   Slide  |  |  Export  |   |
+|  |  OAuth    |  | Analyzer |  | Generator|  | Service  |   |
+|  +-----------+  +----------+  +----------+  +----------+   |
+|                      |              |                        |
+|               AI API (LLM)    pptx / PDF libs              |
++------------------------+-------------------------------------+
+                         |
++------------------------v-------------------------------------+
+|                      MongoDB 7                               |
+|  Users - Repos - Analyses - Decks - Slides                  |
++--------------------------------------------------------------+
 ```
-
----
-
-## Quick Start
-
-### Docker (recommended)
-
-```bash
-git clone https://github.com/avase33/pitchsync
-cd pitchsync
-cp .env.example .env
-docker compose up
-```
-
-App: http://localhost:5174 | API: http://localhost:5001
-
-### Manual
-
-```bash
-# Backend
-cd backend && npm install
-cp ../.env.example .env
-npm run dev        # starts on :5001
-
-# Frontend (new terminal)
-cd frontend && npm install
-npm run dev        # starts on :5174
-```
-
----
-
-## API Reference
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/auth/register` | Create account |
-| POST | `/api/auth/login` | Login -> JWT pair |
-| POST | `/api/auth/refresh` | Refresh access token |
-| GET  | `/api/auth/me` | Get current user |
-| GET  | `/api/pitches` | List my pitch decks |
-| POST | `/api/pitches` | Generate pitch from repo URL |
-| GET  | `/api/pitches/public` | Browse public pitches |
-| GET  | `/api/pitches/:id` | Get pitch details |
-| PATCH | `/api/pitches/:id` | Update pitch (title, slides, theme) |
-| DELETE | `/api/pitches/:id` | Delete pitch |
-| POST | `/api/pitches/:id/like` | Like a pitch |
-| POST | `/api/pitches/:id/regenerate` | Re-analyze and regenerate slides |
-| GET  | `/api/pitches/slug/:slug` | Get public pitch by share slug |
-
----
-
-## How Slide Generation Works
-
-1. **Fetch** — GitHub API pulls repo metadata, README, package.json, language stats, topics
-2. **Analyze** — Section extraction (problem/solution/roadmap headers), tech stack detection across 8 categories, feature bullet parsing
-3. **Generate** — 10-slide deck with smart fallbacks for any repo type
-4. **Store** — MongoDB with async background generation (202 Accepted pattern)
-
-No external AI API required — pure heuristic analysis that works on any public repo.
 
 ---
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Runtime | Node.js 20 + ES Modules |
-| Backend | Express 4, Mongoose, JWT, bcryptjs |
-| Database | MongoDB 7 |
-| Frontend | React 18, TypeScript, Vite, Tailwind CSS |
-| State | Zustand, TanStack React Query |
-| GitHub | node-fetch + GitHub REST API v3 |
-| Infra | Docker, Docker Compose, GitHub Actions |
+| Layer | Technology | Purpose |
+|---|---|---|
+| **Runtime** | Node.js 20, TypeScript | Backend API |
+| **Framework** | Express 4 | REST API routing |
+| **Auth** | GitHub OAuth + JWT | Repo access + session |
+| **Export** | pptxgenjs, puppeteer | PPTX and PDF export |
+| **Frontend** | React 18, TypeScript | Slide editor UI |
+| **Styling** | Tailwind CSS | Theme-aware design |
+| **Database** | MongoDB 7, Mongoose | Deck and analysis storage |
+| **CI** | GitHub Actions | Lint, type-check, build |
+
+---
+
+## Quick Start
+
+### Option A: Docker
+
+```bash
+git clone https://github.com/avase33/pitchsync.git
+cd pitchsync
+cp .env.example .env
+# Add GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET
+docker compose up -d
+```
+
+| Service | URL |
+|---|---|
+| App | http://localhost:3000 |
+| API | http://localhost:5000/api |
+
+### Option B: Local Development
+
+**Backend**
+
+```bash
+cd backend
+npm install
+cp ../.env.example .env
+npm run dev
+```
+
+**Frontend**
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+---
+
+## Generated Slide Structure
+
+| Slide | Content |
+|---|---|
+| 1. Cover | Project name, tagline, logo |
+| 2. Problem | Pain point extracted from README |
+| 3. Solution | Core product description and key value props |
+| 4. Product Demo | Architecture diagram + screenshot placeholder |
+| 5. Tech Differentiation | What makes your stack and approach novel |
+| 6. Market | Category and positioning |
+| 7. Traction | Commits, contributors, repo activity signals |
+| 8. Business Model | Extracted from pricing/plans if present |
+| 9. Roadmap | Next features from issues/TODO |
+| 10. Team | Contributor profiles from GitHub |
+| 11. Ask | Round size placeholder (editable) |
+| 12. Contact | GitHub, email, links |
 
 ---
 
 ## Roadmap
 
-- [ ] PDF export (Puppeteer headless render)
-- [ ] Slide editor (inline edit each slide's text)
-- [ ] Custom slides (add/remove/reorder)
-- [ ] Team pitch collaboration (multiple editors)
-- [ ] AI-enhanced analysis (GPT-4o-mini for richer content)
-- [ ] Private repo support (GitHub OAuth)
-- [ ] Embed widget (iframe shareable slide)
-- [ ] PowerPoint export
+- [ ] Direct Google Slides API export
+- [ ] GitLab and Bitbucket support
+- [ ] Pitch deck scoring: "How investor-ready is this deck?"
+- [ ] Competitor comparison slide auto-generation
+- [ ] Video walkthrough generation from deck
+- [ ] Notion workspace integration
+- [ ] Custom slide templates marketplace
 
 ---
 
 ## License
 
-MIT (c) Akhil Vase 2026
+```
+Copyright (c) 2026 Akhil Vase. All rights reserved.
+
+This source code is the proprietary property of Akhil Vase.
+Unauthorized copying, distribution, or modification is strictly prohibited.
+```
+
+---
+
+<div align="center">
+
+**Your code already tells the story. We just turn it into slides.**
+
+*PitchSync -- From repo to raise-ready in minutes.*
+
+</div>
