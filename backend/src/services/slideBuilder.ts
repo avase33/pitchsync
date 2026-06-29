@@ -1,4 +1,4 @@
-// Slide content builder -- 2026-06-29 13:33:52
+// Slide content builder -- 2026-06-29 13:34:51
 import { RepoAnalysis } from './repoAnalyzer';
 
 export interface Slide {
