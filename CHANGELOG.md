@@ -1,6 +1,6 @@
 # PitchSync Changelog
 
-## [Unreleased] -- 2026-06-30
+## [Unreleased] -- 2026-07-07
 
 ### Added
 - GitHub repo analyzer: stars, forks, contributors, topics, README extraction
@@ -9,5 +9,5 @@
 - Deck generation API: POST /decks/generate from owner/repo
 - SlidePreview React component with themed slides and keyboard navigation
 
-## [v1.06301224] -- 2026-06-30
-- Run: 20260630122418
+## [v1.07071030] -- 2026-07-07
+- Run: 20260707103012
