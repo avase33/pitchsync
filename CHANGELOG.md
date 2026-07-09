@@ -9,5 +9,5 @@
 - Deck generation API: POST /decks/generate from owner/repo
 - SlidePreview React component with themed slides and keyboard navigation
 
-## [v1.07091153] -- 2026-07-09
-- Run: 20260709115317
+## [v1.07091155] -- 2026-07-09
+- Run: 20260709115532
