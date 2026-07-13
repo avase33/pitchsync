@@ -1,4 +1,4 @@
-// Repository analyzer -- 2026-07-13 16:52:18
+// Repository analyzer -- 2026-07-13 16:53:09
 import { Octokit } from '@octokit/rest';
 
 export interface RepoAnalysis {
