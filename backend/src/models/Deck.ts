@@ -1,4 +1,4 @@
-// Deck model -- 2026-07-14 13:00:46
+// Deck model -- 2026-07-14 13:01:49
 import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IDeck extends Document {
