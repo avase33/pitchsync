@@ -1,4 +1,4 @@
-// SlidePreview component -- 2026-07-15 11:39:49
+// SlidePreview component -- 2026-07-15 11:41:19
 import { useState } from 'react';
 
 interface Slide { id: string; type: string; title: string; content: string[]; notes?: string; }
